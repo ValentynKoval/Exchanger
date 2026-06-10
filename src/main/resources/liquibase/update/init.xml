@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog logicalFilePath="db.changelog-1.0.xml" xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="ct-tbl-users" author="ValentynKoval">
+        <createTable tableName="users">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="phone" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="active" type="BOOLEAN"/>
+            <column name="telegram_chat_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="ct-tbl-rate" author="ValentynKoval">
+        <createTable tableName="rate">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="currency" type="VARCHAR(3)"/>
+            <column name="buy" type="VARCHAR(15)"/>
+            <column name="sale" type="VARCHAR(15)"/>
+            <column name="receive" type="timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="ct-type-currency" author="ValentynKoval">
+        <sql>
+            CREATE TYPE currency AS ENUM ('USD','UAH','EUR');
+        </sql>
+    </changeSet>
+
+    <changeSet author="ValentynKoval" id="ct-wallet">
+        <createTable tableName="wallet">
+            <column name = "id" type="uuid">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="currency" type="currency"/>
+            <column name="balance" type="DECIMAL"/>
+            <column name="updated_at" type="TIMESTAMP"/>
+            <column name="user_id" type="uuid"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="ct-status-trans" author="ValentynKoval">
+        <sql>
+            CREATE TYPE status AS ENUM ('PENDING','EXECUTED','FAILED');
+        </sql>
+    </changeSet>
+
+    <changeSet id="ct-type-trans" author="ValentynKoval">
+        <sql>
+            CREATE TYPE type_trans AS ENUM ('PUT','GET','EXCH','TRANSF');
+        </sql>
+    </changeSet>
+
+    <changeSet author="ValentynKoval" id="ct-Transaction">
+        <createTable tableName="transaction">
+            <column name = "id" type="uuid">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="status" type="status"/>
+            <column name="currency_from" type="currency"/>
+            <column name="amount_from" type="DECIMAL"/>
+            <column name="currency_to" type="currency"/>
+            <column name="amount_to" type="DECIMAL"/>
+            <column name="type" type="type_trans"/>
+            <column name="sender" type="varchar(12)"/>
+            <column name="receiver" type="varchar(12)"/>
+            <column name="comment" type="varchar(1024)"/>
+            <column name="update_at" type="DateTime"/>
+            <column name="code" type="varchar(10)"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
