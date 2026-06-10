@@ -1,0 +1,67 @@
+# =========================
+# Java / Maven
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven build logs
+dependency-reduced-pom.xml
+
+# =========================
+# IntelliJ IDEA
+# =========================
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# =========================
+# VS Code
+# =========================
+.vscode/
+
+# =========================
+# Eclipse / STS
+# =========================
+.project
+.classpath
+.settings/
+.springBeans
+.sts4-cache/
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+*.env
+application-local.yml
+application-local.properties
+
+# =========================
+# Spring Boot
+# =========================
+spring.log
+
+# =========================
+# Temporary files
+# =========================
+*.tmp
+*.temp
+*.swp
+*.swo
