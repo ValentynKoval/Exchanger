@@ -2,6 +2,7 @@ package com.exchanger.service;
 
 import com.exchanger.dto.UserRequest;
 import com.exchanger.dto.UserResponse;
+import com.exchanger.entity.User;
 import com.exchanger.exception.NotUniqueUserException;
 import com.exchanger.exception.UserNotFoundException;
 import com.exchanger.mapper.UserMapper;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -40,5 +42,18 @@ public class UserService {
         return userMapper.toDto(
                 userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(String.format("User by id: %s not found", id))));
+    }
+
+    public String activateUser(String phoneNumber, long chatId) {
+        Optional<User> userOptional = userRepository.findByPhone(phoneNumber);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setTelegramChatId(chatId).setActive(true);
+            userRepository.save(user);
+            return "Hello " + user.getFirstName() + " " + user.getLastName();
+        } else {
+            log.warn("user {} not found", phoneNumber);
+            return "Try next time...";
+        }
     }
 }
